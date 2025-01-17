@@ -57,7 +57,7 @@ class SupplierController extends Controller
             'name' => 'required|string|max:255',
             'contact_person' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required|numeric|max:20',
             'address' => 'required|string',
         ]);
 

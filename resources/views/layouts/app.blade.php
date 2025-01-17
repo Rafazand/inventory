@@ -77,6 +77,15 @@
                             <i class="fas fa-list"></i> Order Items
                         </a>
                     </li>
+                     <!-- Logout Button -->
+                     <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to Logout?');">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm ms-2">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>

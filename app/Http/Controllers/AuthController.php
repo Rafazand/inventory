@@ -53,6 +53,6 @@ class AuthController extends Controller
     public function logout()
     {
         $this->authService->logout();
-        return redirect('/');
+        return redirect('/login');
     }
 }

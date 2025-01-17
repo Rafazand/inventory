@@ -28,7 +28,7 @@
             @foreach ($orderItems as $orderItem)
                 <tr>
                     {{-- <td>{{ $orderItem->id }}</td> --}}
-                    <td>{{ $orderItem->order_id }}</td>
+                    <td>{{ $orderItem->order_id }}</td> 
                     <td>{{ $orderItem->product->name }}</td>
                     <td>{{ $orderItem->quantity }}</td>
                     <td>Rp{{ number_format($orderItem->unit_price, 2) }}</td>

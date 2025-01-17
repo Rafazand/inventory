@@ -44,7 +44,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('menu') }}">
+            <a class="navbar-brand"> 
+                {{-- href="{{ route('menu') }}" --}}
                 <i class="fas fa-boxes"></i> Inventory System
             </a>
         </div>

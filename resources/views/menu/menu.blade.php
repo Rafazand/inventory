@@ -4,12 +4,12 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="text-center my-5">Inventory Management System</h1>
-            <form action="{{ route('logout') }}" method="POST">
+            {{-- <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-danger">
                     <i class="fas fa-sign-out-alt me-1"></i>Logout
                 </button>
-            </form>
+            </form> --}}
         </div>
         <div class="row justify-content-center">
             @foreach ($menuItems as $item)
