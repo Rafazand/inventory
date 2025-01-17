@@ -15,7 +15,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
+                {{-- <th>ID</th> --}}
                 <th>Name</th>
                 <th>Contact Person</th>
                 <th>Email</th>
@@ -27,7 +27,7 @@
         <tbody>
             @foreach ($suppliers as $supplier)
                 <tr>
-                    <td>{{ $supplier->id }}</td>
+                    {{-- <td>{{ $supplier->id }}</td> --}}
                     <td>{{ $supplier->name }}</td>
                     <td>{{ $supplier->contact_person }}</td>
                     <td>{{ $supplier->email }}</td>

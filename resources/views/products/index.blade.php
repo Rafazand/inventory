@@ -15,7 +15,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
+                {{-- <th>ID</th> --}}
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
@@ -27,7 +27,7 @@
         <tbody>
             @foreach ($products as $product)
                 <tr>
-                    <td>{{ $product->id }}</td>
+                    {{-- <td>{{ $product->id }}</td> --}}
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->description }}</td>
                     <td>Rp.{{ number_format($product->price, 2) }}</td>

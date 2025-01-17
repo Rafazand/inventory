@@ -15,7 +15,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
+                {{-- <th>ID</th> --}}
                 <th>Supplier</th>
                 <th>Order Date</th>
                 <th>Total Amount</th>
@@ -26,7 +26,7 @@
         <tbody>
             @foreach ($orders as $order)
                 <tr>
-                    <td>{{ $order->id }}</td>
+                    {{-- <td>{{ $order->id }}</td> --}}
                     <td>{{ $order->supplier->name }}</td>
                     <td>{{ $order->order_date }}</td>
                     <td>Rp.{{ number_format($order->total_amount, 2) }}</td>

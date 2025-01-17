@@ -15,7 +15,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
+                {{-- <th>ID</th> --}}
                 <th>Name</th>
                 <th>Description</th>
                 <th>Actions</th>
@@ -24,7 +24,7 @@
         <tbody>
             @foreach ($categories as $category)
                 <tr>
-                    <td>{{ $category->id }}</td>
+                    {{-- <td>{{ $category->id }}</td> --}}
                     <td>{{ $category->name }}</td>
                     <td>{{ $category->description }}</td>
                     <td>

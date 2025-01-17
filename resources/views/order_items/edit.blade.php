@@ -6,7 +6,7 @@
         <a href="{{ route('order_items.index') }}" class="btn btn-secondary">Back</a>
     </div>
 
-    <form action="{{ route('order_items.update', $orderItem->id) }}" method="POST">
+    <form action="{{ route('order_items.update', $orderItem->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to submit this form?');">
         @csrf
         @method('PUT')
         <div class="mb-3">

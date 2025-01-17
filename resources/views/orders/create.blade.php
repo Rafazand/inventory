@@ -6,7 +6,7 @@
         <a href="{{ route('orders.index') }}" class="btn btn-secondary">Back</a>
     </div>
 
-    <form action="{{ route('orders.store') }}" method="POST">
+    <form action="{{ route('orders.store') }}" method="POST" onsubmit="return confirm('Are you sure you want to submit this form?');">
         @csrf
         <div class="mb-3">
             <label for="supplier_id" class="form-label">Supplier</label>
