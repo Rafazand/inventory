@@ -34,27 +34,32 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:categories,name',
             'description' => 'nullable|string',
         ]);
-
-        $this->categoryService->create($request->all());
-
-        return redirect()->route('categories.index')
-                         ->with('success', 'Category created successfully.');
+    
+        try {
+            $this->categoryService->create($request->all());
+            return redirect()->route('categories.index')
+                             ->with('success', 'Category created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['name' => $e->getMessage()])->withInput();
+        }
     }
-
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
             'description' => 'nullable|string',
         ]);
-
-        $this->categoryService->update($id, $request->all());
-
-        return redirect()->route('categories.index')
-                         ->with('success', 'Category updated successfully.');
+    
+        try {
+            $this->categoryService->update($id, $request->all());
+            return redirect()->route('categories.index')
+                             ->with('success', 'Category updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['name' => $e->getMessage()])->withInput();
+        }
     }
 
     public function destroy($id)

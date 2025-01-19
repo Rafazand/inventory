@@ -25,11 +25,22 @@ class CategoryService
 
     public function create(array $data)
     {
+        // Check if category with the same name already exists
+        if ($this->categoryRepository->findByName($data['name'])) {
+            throw new \Exception('Category name already exists.');
+        }
+    
         return $this->categoryRepository->create($data);
     }
 
     public function update($id, array $data)
     {
+        // Check if another category with the same name already exists
+        $existingCategory = $this->categoryRepository->findByName($data['name']);
+        if ($existingCategory && $existingCategory->id != $id) {
+            throw new \Exception('Category name already exists.');
+        }
+    
         return $this->categoryRepository->update($id, $data);
     }
 

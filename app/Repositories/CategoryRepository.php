@@ -12,7 +12,6 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         $this->model = $model;
     }
-
     public function all()
     {
         return $this->model->all();
@@ -40,5 +39,10 @@ class CategoryRepository implements CategoryRepositoryInterface
         $category = $this->model->findOrFail($id);
         $category->delete();
         return $category;
+    }
+
+    public function findByName($name)
+    {
+        return $this->model->where('name', $name)->first();
     }
 }
