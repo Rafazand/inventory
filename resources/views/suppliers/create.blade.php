@@ -22,7 +22,7 @@
         </div>
         <div class="mb-3">
             <label for="phone" class="form-label">Phone</label>
-            <input type="text" class="form-control" id="phone" name="phone" required>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ $supplier->phone ?? '' }}" required>
         </div>
         <div class="mb-3">
             <label for="address" class="form-label">Address</label>
@@ -30,4 +30,10 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+    <script>
+        document.getElementById('phone').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        });
+    </script>
 @endsection

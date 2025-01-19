@@ -31,4 +31,10 @@
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
+
+    <script>
+        document.getElementById('phone').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        });
+    </script>
 @endsection
