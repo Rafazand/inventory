@@ -34,7 +34,7 @@ class OrderController extends Controller
         $validatedData = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'order_date' => 'required|date',
-            'total_amount' => 'nullable|numeric|min:0',
+            'total_amount' => 'nullable|numeric|min:0|max:99999999.99',
             'status' => 'required|string|in:Pending,Completed,Cancelled',
         ]);
 
@@ -59,7 +59,7 @@ class OrderController extends Controller
         $validatedData = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'order_date' => 'required|date',
-            'total_amount' => 'nullable|numeric|min:0',
+            'total_amount' => 'nullable|numeric|min:0|max:99999999.99',
             'status' => 'required|string|in:Pending,Completed,Cancelled',
         ]);
 

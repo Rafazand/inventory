@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\OrderItemService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class OrderItemController extends Controller
 {
@@ -34,8 +35,8 @@ class OrderItemController extends Controller
             'order_id' => 'required|exists:orders,id',
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
-            'unit_price' => 'nullable|numeric|min:0',
-            'total_price' => 'nullable|numeric|min:0',
+            'unit_price' => 'nullable|numeric|min:0|max:99999999.99',
+            'total_price' => 'nullable|numeric|min:0|max:99999999.99',
         ]);
 
         // Delegate the creation logic to the service
@@ -61,8 +62,8 @@ class OrderItemController extends Controller
             'order_id' => 'required|exists:orders,id',
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
-            'unit_price' => 'nullable|numeric|min:0',
-            'total_price' => 'nullable|numeric|min:0',
+            'unit_price' => 'nullable|numeric|min:0|max:99999999.99',
+            'total_price' => 'nullable|numeric|min:0|max:99999999.99',
         ]);
 
         // Delegate the update logic to the service
@@ -71,6 +72,7 @@ class OrderItemController extends Controller
         // Redirect with a success message
         return redirect()->route('order_items.index')
                          ->with('success', 'Order item updated successfully.');
+                         
     }
 
     public function destroy($id)

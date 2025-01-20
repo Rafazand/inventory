@@ -10,6 +10,16 @@
                     <h4><i class="fas fa-user-plus me-2"></i>Register</h4>
                 </div>
                 <div class="card-body">
+
+                    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="mb-3">

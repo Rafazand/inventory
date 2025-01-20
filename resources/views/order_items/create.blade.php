@@ -33,7 +33,7 @@
             <select name="product_id" id="product_id" class="form-control" required>
                 @foreach ($products as $product)
                     <option value="{{ $product->id }}" data-quantity="{{ $product->quantity }}">
-                        {{ $product->name }} (Available: {{ $product->quantity }})
+                        {{ $product->name }} (Available: {{ $product->quantity }}) (Rp{{ number_format($product->price, 2) }})
                     </option>
                 @endforeach
             </select>
@@ -49,6 +49,14 @@
     </form>
 
     <script>
+
+        // Automatically fill the unit_price field with the selected product's price
+        document.getElementById('product_id').addEventListener('change', function () {
+            const selectedProduct = this.options[this.selectedIndex];
+            const productPrice = selectedProduct.getAttribute('data-price');
+            document.getElementById('unit_price').value = productPrice;
+        });
+
         // Update the max quantity when the product selection changes
         document.getElementById('product_id').addEventListener('change', function () {
             const selectedProduct = this.options[this.selectedIndex];

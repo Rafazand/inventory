@@ -6,6 +6,16 @@
         <a href="{{ route('orders.index') }}" class="btn btn-secondary">Back</a>
     </div>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form action="{{ route('orders.update', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to submit this form?');">
         @csrf
         @method('PUT')
@@ -24,10 +34,10 @@
             <label for="order_date" class="form-label">Order Date</label>
             <input type="date" class="form-control" id="order_date" name="order_date" value="{{ $order->order_date }}" required>
         </div>
-        <div class="mb-3">
+        {{-- <div class="mb-3">
             <label for="total_amount" class="form-label">Total Amount</label>
             <input type="number" step="0.01" class="form-control" id="total_amount" name="total_amount" value="{{ $order->total_amount }}" required>
-        </div>
+        </div> --}}
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select class="form-control" id="status" name="status" required>
