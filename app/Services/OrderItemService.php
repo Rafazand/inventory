@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\OrderItemRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
+use Illuminate\Validation\ValidationException;
 
 class OrderItemService
 {
@@ -35,18 +36,18 @@ class OrderItemService
     }
 
     public function create(array $data)
-    // {
-    //     // Fetch the product price from the product repository
-    //     $product = $this->productRepository->find($data['product_id']);
-    //     $data['unit_price'] = $product->price; // Set unit_price from product price
-    //     $data['total_price'] = $data['quantity'] * $product->price; // Calculate total_price
-
-    //     return $this->orderItemRepository->create($data);
-    // }
-
     {
         // Fetch the product price from the product repository
         $product = $this->productRepository->find($data['product_id']);
+
+        // Validate that the order item quantity does not exceed the available product quantity
+        if ($data['quantity'] > $product->quantity) {
+            throw ValidationException::withMessages([
+                'quantity' => 'The quantity cannot exceed the available stock (' . $product->quantity . ').',
+            ]);
+        }
+
+        // Set unit_price and calculate total_price
         $data['unit_price'] = $product->price; // Set unit_price from product price
         $data['total_price'] = $data['quantity'] * $product->price; // Calculate total_price
 
@@ -59,19 +60,19 @@ class OrderItemService
         return $orderItem;
     }
 
-    public function update($id, array $data)
-    // {
-    //     // Fetch the product price from the product repository
-    //     $product = $this->productRepository->find($data['product_id']);
-    //     $data['unit_price'] = $product->price; // Set unit_price from product price
-    //     $data['total_price'] = $data['quantity'] * $product->price; // Calculate total_price
-
-    //     return $this->orderItemRepository->update($id, $data);
-    // }
-
+    public function update($id, array $data)   
     {
         // Fetch the product price from the product repository
         $product = $this->productRepository->find($data['product_id']);
+
+        // Validate that the updated order item quantity does not exceed the available product quantity
+        if ($data['quantity'] > $product->quantity) {
+            throw ValidationException::withMessages([
+                'quantity' => 'The quantity cannot exceed the available stock (' . $product->quantity . ').',
+            ]);
+        }
+
+        // Set unit_price and calculate total_price
         $data['unit_price'] = $product->price; // Set unit_price from product price
         $data['total_price'] = $data['quantity'] * $product->price; // Calculate total_price
 
