@@ -28,6 +28,8 @@ class OrderService
 
     public function create(array $data)
     {
+        // Create the order with total_amount as null initially
+        $data['total_amount'] = null;
         return $this->orderRepository->create($data);
     }
 
@@ -73,6 +75,45 @@ class OrderService
 
         // Update the total amount of the order
         $order->update(['total_amount' => $totalAmount]);
+
+        return $order;
+    }
+
+    public function calculateAndUpdateTotalAmount($orderId)
+    {
+        // Find the order
+        $order = $this->orderRepository->find($orderId);
+
+        // Calculate the total amount from order items
+        $totalAmount = $order->items()->sum('total_price');
+
+        // Update the order's total_amount
+        $order->update(['total_amount' => $totalAmount]);
+
+        return $order;
+    }
+
+    public function createOrderWithItems(array $orderData)
+    {
+        // Create the order
+        $order = $this->create([
+            'supplier_id' => $orderData['supplier_id'],
+            'order_date' => $orderData['order_date'],
+            'status' => $orderData['status'] ?? 'Pending',
+        ]);
+
+        // Add order items
+        foreach ($orderData['items'] as $item) {
+            $order->items()->create([
+                'product_id' => $item['product_id'],
+                'quantity' => $item['quantity'],
+                'unit_price' => $item['unit_price'],
+                'total_price' => $item['quantity'] * $item['unit_price'],
+            ]);
+        }
+
+        // Calculate and update the total amount
+        $this->calculateAndUpdateTotalAmount($order->id);
 
         return $order;
     }

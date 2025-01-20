@@ -14,38 +14,27 @@ class OrderController extends Controller
         $this->orderService = $orderService;
     }
 
+
     public function index()
     {
         $orders = $this->orderService->all();
-        return view('orders.index', compact('orders'));
+        return view('orders.index', compact('orders',));
     }
 
     public function create()
     {
         $suppliers = \App\Models\Supplier::all(); // Fetch suppliers for the dropdown
-        return view('orders.create', compact('suppliers'));
+        $products = \App\Models\Product::all(); // Fetch products for the dropdown
+        return view('orders.create', compact('suppliers', 'products'));
     }
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'items' => 'required|array',
-        //     'items.*.product_id' => 'required|exists:products,id',
-        //     'items.*.quantity' => 'required|integer|min:1',
-        // ]);
-
-        // try {
-        //     $order = $this->orderService->createOrder($request->all());
-        //     return response()->json($order, 201);
-        // } catch (\Exception $e) {
-        //     return response()->json(['error' => $e->getMessage()], 400);
-        // }
-
         // Validate the request
         $validatedData = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'order_date' => 'required|date',
-            'total_amount' => 'required|numeric|min:0|max:99999999.99',
+            'total_amount' => 'nullable|numeric|min:0',
             'status' => 'required|string|in:Pending,Completed,Cancelled',
         ]);
 
@@ -70,7 +59,7 @@ class OrderController extends Controller
         $validatedData = $request->validate([
             'supplier_id' => 'required|exists:suppliers,id',
             'order_date' => 'required|date',
-            'total_amount' => 'required|numeric|min:0',
+            'total_amount' => 'nullable|numeric|min:0',
             'status' => 'required|string|in:Pending,Completed,Cancelled',
         ]);
 
