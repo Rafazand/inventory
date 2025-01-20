@@ -41,4 +41,9 @@ class SupplierRepository implements SupplierRepositoryInterface
         $supplier->delete();
         return $supplier;
     }
+
+    public function findByEmail($email)
+    {
+        return $this->model->where('email', $email)->first();
+    }
 }
