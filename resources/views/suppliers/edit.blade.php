@@ -16,6 +16,12 @@
         </div>
     @endif
 
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <form action="{{ route('suppliers.update', $supplier->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to submit this form?');">
         @csrf
         @method('PUT')

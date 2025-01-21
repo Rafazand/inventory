@@ -36,14 +36,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(MenuServiceInterface::class, MenuService::class);
         $this->app->bind(AuthServiceInterface::class, AuthService::class);
         $this->app->bind(ThemeServiceInterface::class, ThemeService::class);
-
-        // $this->app->bind(OrderItemService::class, function ($app) {
-        //     return new OrderItemService(
-        //         $app->make(OrderItemRepositoryInterface::class),
-        //         $app->make(ProductRepositoryInterface::class),
-        //         $app->make(OrderRepositoryInterface::class)
-        //     );
-        // });
     }
 
     /**
