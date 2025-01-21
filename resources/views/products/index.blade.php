@@ -36,6 +36,7 @@
                             No Image
                         @endif
                     </td>
+
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->description }}</td>
                     <td>Rp.{{ number_format($product->price, 2) }}</td>

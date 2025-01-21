@@ -39,6 +39,36 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
     </style>
+
+    <style>
+        :root {
+            --background-color: #ffffff;
+            --text-color: #000000;
+            --navbar-bg: #007bff;
+            --footer-bg: #007bff;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #4f5965;
+            --text-color: #ffffff;
+            --navbar-bg: #343a40;
+            --footer-bg: #343a40;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: var(--navbar-bg) !important;
+        }
+
+        .footer {
+            background-color: var(--footer-bg) !important;
+        }
+    </style>
+
 </head>
 <body>
     <!-- Navbar -->
@@ -77,6 +107,13 @@
                             <i class="fas fa-list"></i> Order Items
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <button id="theme-toggle" class="btn btn-sm ms-2">
+                            <i class="fas fa-moon"></i> <!-- Icon untuk dark mode -->
+                        </button>
+                    </li>
+
                      <!-- Logout Button -->
                      <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to Logout?');">
@@ -107,5 +144,31 @@
     <!-- Bootstrap JS and Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeToggle = document.getElementById('theme-toggle');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+    
+            // Set tema awal
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+    
+            // Toggle tema saat tombol diklik
+            themeToggle.addEventListener('click', function () {
+                const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+    
+            // Fungsi untuk mengupdate ikon tema
+            function updateThemeIcon(theme) {
+                const icon = theme === 'dark' ? 'fa-sun' : 'fa-moon';
+                themeToggle.innerHTML = `<i class="fas ${icon}"></i>`;
+            }
+        });
+    </script>
+
 </body>
 </html>

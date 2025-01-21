@@ -8,6 +8,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ThemeController;
+
 
 
 
@@ -41,5 +43,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::get('/menu', [MenuController::class, 'menu'])->middleware('auth');
+
+Route::post('/set-theme', [ThemeController::class, 'setTheme'])->name('set-theme');
 
 // Route::post('/orders', [OrderController::class, 'store']);
