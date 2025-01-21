@@ -16,7 +16,7 @@
         <thead>
             <tr>
                 {{-- <th>ID</th> --}}
-                <th>Name</th>
+                <th>Supplier</th>
                 <th>Contact Person</th>
                 <th>Email</th>
                 <th>Phone</th>
@@ -31,7 +31,7 @@
                     <td>{{ $supplier->name }}</td>
                     <td>{{ $supplier->contact_person }}</td>
                     <td>{{ $supplier->email }}</td>
-                    <td>{{ $supplier->phone }}</td>
+                    <td>(08) {{ substr($supplier->phone, 1) }}</td>    {{-- <td>{{ $supplier->phone }}</td> --}}
                     <td>{{ $supplier->address }}</td>
                     <td>
                         <a href="{{ route('suppliers.edit', $supplier->id) }}" class="btn btn-sm btn-warning">Edit</a>

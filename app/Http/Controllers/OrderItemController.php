@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\OrderItemService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use App\Models\OrderItem;
 
 class OrderItemController extends Controller
 {
@@ -18,6 +19,7 @@ class OrderItemController extends Controller
     public function index()
     {
         $orderItems = $this->orderItemService->all();
+        $orderItems = OrderItem::with('order.supplier')->get();
         return view('order_items.index', compact('orderItems'));
     }
 

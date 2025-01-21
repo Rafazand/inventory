@@ -20,10 +20,10 @@
         @csrf
 
         <div class="form-group">
-            <label for="order_id">Order</label>
+            <label for="order_id">Supplier</label>
             <select name="order_id" id="order_id" class="form-control" required>
                 @foreach ($orders as $order)
-                    <option value="{{ $order->id }}">{{ $order->id }}</option>
+                    <option value="{{ $order->id }}">{{ $order->supplier->name }}</option>
                 @endforeach
             </select>
         </div>

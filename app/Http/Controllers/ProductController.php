@@ -35,7 +35,13 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0|max:99999999.99',
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Upload gambar jika ada
+    if ($request->hasFile('image')) {
+        $validatedData['image'] = $request->file('image')->store('products', 'public');
+    }
 
         // Delegate the creation logic to the service
         $this->productService->create($validatedData);
@@ -61,7 +67,13 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Upload gambar jika ada
+        if ($request->hasFile('image')) {
+            $validatedData['image'] = $request->file('image')->store('products', 'public');
+        }
 
         // Delegate the update logic to the service
         $this->productService->update($id, $validatedData);

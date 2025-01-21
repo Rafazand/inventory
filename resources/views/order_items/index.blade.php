@@ -15,7 +15,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Order ID</th>
+                <th>Supplier</th>
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>
@@ -26,7 +26,7 @@
         <tbody>
             @foreach ($orderItems as $orderItem)
                 <tr>
-                    <td>{{ $orderItem->order_id }}</td>
+                    <td>{{ $orderItem->order->supplier->name }}</td>
                     <td>{{ $orderItem->product->name }}</td>
                     <td>{{ $orderItem->quantity }}</td>
                     <td>Rp{{ number_format($orderItem->unit_price, 2) }}</td>
