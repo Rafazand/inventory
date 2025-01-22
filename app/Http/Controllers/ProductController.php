@@ -29,8 +29,8 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-     
-        // Data sudah divalidasi oleh ProductRequest
+        
+        // Data sudah divalidasi oleh StoreProductRequest
         $validatedData = $request->validated();
 
         // Upload gambar jika ada
@@ -55,8 +55,17 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
+        // Validate the request
+        // $validatedData = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'description' => 'nullable|string',
+        //     'price' => 'required|numeric|min:0',
+        //     'quantity' => 'required|integer|min:0',
+        //     'category_id' => 'required|exists:categories,id',
+        //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        // ]);
 
-        // Data sudah divalidasi oleh ProductRequest
+        // Data sudah divalidasi oleh StoreProductRequest
         $validatedData = $request->validated();
 
         // Upload gambar jika ada

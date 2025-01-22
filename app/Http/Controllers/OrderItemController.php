@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderItemRequest;
+use App\Http\Requests\OrderRequest;
 use App\Services\OrderItemService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -30,16 +32,10 @@ class OrderItemController extends Controller
         return view('order_items.create', compact('orders', 'products'));
     }
 
-    public function store(Request $request)
+    public function store(OrderItemRequest $request)
     {
         // Validate the request
-        $validatedData = $request->validate([
-            'order_id' => 'required|exists:orders,id',
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'unit_price' => 'nullable|numeric|min:0|max:99999999.99',
-            'total_price' => 'nullable|numeric|min:0|max:99999999.99',
-        ]);
+        $validatedData = $request->validated();
 
         // Delegate the creation logic to the service
         $this->orderItemService->create($validatedData);
@@ -57,16 +53,10 @@ class OrderItemController extends Controller
         return view('order_items.edit', compact('orderItem', 'orders', 'products'));
     }
 
-    public function update(Request $request, $id)
+    public function update(OrderItemRequest $request, $id)
     {
         // Validate the request
-        $validatedData = $request->validate([
-            'order_id' => 'required|exists:orders,id',
-            'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'unit_price' => 'nullable|numeric|min:0|max:99999999.99',
-            'total_price' => 'nullable|numeric|min:0|max:99999999.99',
-        ]);
+        $validatedData = $request->validated();
 
         // Delegate the update logic to the service
         $this->orderItemService->update($id, $validatedData);

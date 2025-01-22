@@ -107,13 +107,6 @@
                             <i class="fas fa-list"></i> Order Items
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <button id="theme-toggle" class="btn btn-sm ms-2">
-                            <i class="fas fa-moon"></i> <!-- Icon untuk dark mode -->
-                        </button>
-                    </li>
-
                      <!-- Logout Button -->
                      <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to Logout?');">
@@ -122,6 +115,12 @@
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </button>
                         </form>
+
+                        <li class="nav-item">
+                            <button id="theme-toggle" class="btn btn-sm ms-2">
+                                <i class="fas fa-moon"></i> <!-- Icon untuk dark mode -->
+                            </button>
+                        </li>
                     </li>
                 </ul>
             </div>

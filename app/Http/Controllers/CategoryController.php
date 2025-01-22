@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
@@ -31,12 +32,9 @@ class CategoryController extends Controller
         return view('categories.edit', compact('category'));
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name',
-            'description' => 'nullable|string',
-        ]);
+        $validatedData = $request->validated();
     
         try {
             $this->categoryService->create($request->all());
@@ -46,12 +44,9 @@ class CategoryController extends Controller
             return redirect()->back()->withErrors(['name' => $e->getMessage()])->withInput();
         }
     }
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $id,
-            'description' => 'nullable|string',
-        ]);
+        $validatedData = $request->validated();
     
         try {
             $this->categoryService->update($id, $request->all());

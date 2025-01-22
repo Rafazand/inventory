@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -28,15 +29,10 @@ class OrderController extends Controller
         return view('orders.create', compact('suppliers', 'products'));
     }
 
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
         // Validate the request
-        $validatedData = $request->validate([
-            'supplier_id' => 'required|exists:suppliers,id',
-            'order_date' => 'required|date',
-            'total_amount' => 'nullable|numeric|min:0|max:99999999.99',
-            'status' => 'required|string|in:Pending,Completed,Cancelled',
-        ]);
+        $validatedData = $request->validated();
 
         // Delegate the creation logic to the service
         $this->orderService->create($validatedData);
@@ -53,15 +49,10 @@ class OrderController extends Controller
         return view('orders.edit', compact('order', 'suppliers'));
     }
 
-    public function update(Request $request, $id)
+    public function update(OrderRequest $request, $id)
     {
         // Validate the request
-        $validatedData = $request->validate([
-            'supplier_id' => 'required|exists:suppliers,id',
-            'order_date' => 'required|date',
-            'total_amount' => 'nullable|numeric|min:0|max:99999999.99',
-            'status' => 'required|string|in:Pending,Completed,Cancelled',
-        ]);
+        $validatedData = $request->validated();
 
         // Delegate the update logic to the service
         $this->orderService->update($id, $validatedData);
