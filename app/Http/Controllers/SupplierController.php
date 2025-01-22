@@ -53,27 +53,27 @@ class SupplierController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // Validate the request
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'contact_person' => 'required|string|max:255',
-                'email' => 'required|email|max:255',
-                'phone' => 'required|numeric|digits_between:10,15',
-                'address' => 'required|string',
-            ]);
+                // Validate the request
+                $validatedData = $request->validate([
+                    'name' => 'required|string|max:255',
+                    'contact_person' => 'required|string|max:255',
+                    'email' => 'required|email|max:255',
+                    'phone' => 'required|numeric|digits_between:10,15',
+                    'address' => 'required|string',
+                ]);
 
-            // Delegate the update logic to the service
-            $this->supplierService->update($id, $validatedData);
+                // Delegate the update logic to the service
+                $this->supplierService->update($id, $validatedData);
 
-            // Redirect with a success message
-            return redirect()->route('suppliers.index')
-                            ->with('success', 'Supplier updated successfully.');
+                // Redirect with a success message
+                return redirect()->route('suppliers.index')
+                                ->with('success', 'Supplier updated successfully.');
             }catch (\Exception $e) {
                 // Redirect back with error message
                 return redirect()->back()
                             ->withInput()
                             ->withErrors(['email' => $e->getMessage()]);
-            }
+                }
                     
                     
                 

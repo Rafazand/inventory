@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ProductService;
+use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -26,17 +27,11 @@ class ProductController extends Controller
         return view('products.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        // Validate the request
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0|max:99999999.99',
-            'quantity' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+     
+        // Data sudah divalidasi oleh ProductRequest
+        $validatedData = $request->validated();
 
         // Upload gambar jika ada
     if ($request->hasFile('image')) {
@@ -58,17 +53,11 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
-        // Validate the request
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+
+        // Data sudah divalidasi oleh ProductRequest
+        $validatedData = $request->validated();
 
         // Upload gambar jika ada
         if ($request->hasFile('image')) {

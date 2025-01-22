@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\OrderRepositoryInterface;
+use App\Repositories\OrderItemRepositoryInterface;
+use App\Repositories\ProductRepositoryInterface;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -10,8 +12,14 @@ use App\Models\Product;
 class OrderService
 {
     protected $orderRepository;
+    protected $productRepository;
+    protected $orderItemRepository;
 
-    public function __construct(OrderRepositoryInterface $orderRepository)
+    public function __construct(
+        OrderRepositoryInterface $orderRepository,
+        ProductRepositoryInterface $productRepository,
+        OrderItemRepositoryInterface $orderItemRepository
+        )
     {
         $this->orderRepository = $orderRepository;
     }
@@ -35,7 +43,14 @@ class OrderService
 
     public function update($id, array $data)
     {
-        return $this->orderRepository->update($id, $data);
+        $order = $this->orderRepository->update($id, $data);
+
+        // Jika status pesanan diubah menjadi "Completed"
+        if ($order->status === 'Completed') {
+            $this->handleOrderCompletion($order);
+        }
+
+        return $order;
     }
 
     public function delete($id)
@@ -116,5 +131,56 @@ class OrderService
         $this->calculateAndUpdateTotalAmount($order->id);
 
         return $order;
+    }
+
+    protected function handleOrderCompletion(Order $order)
+    // {
+    //     // Get all order items for the completed order
+    //     $orderItems = $order->items;
+
+    //     foreach ($orderItems as $orderItem) {
+    //         // Decrease the product quantity
+    //         $product = $this->productRepository->find($orderItem->product_id);
+    //         $newQuantity = $product->quantity - $orderItem->quantity;
+
+    //         // Update the product quantity
+    //         $this->productRepository->update($product->id, [
+    //             'quantity' => $newQuantity,
+    //         ]);
+
+    //         // If the product quantity reaches zero, mark it as "Out of Stock"
+    //         if ($newQuantity <= 0) {
+    //             $this->productRepository->update($product->id, [
+    //                 'quantity' => 0,
+    //                 'status' => 'Out of Stock', // Assuming you have a 'status' column in the products table
+    //             ]);
+    //         }
+
+    //         // Remove the supplier from the order item (optional, based on your business logic)
+    //         $this->orderItemRepository->update($orderItem->id, [
+    //             'supplier_id' => null,
+    //         ]);
+    //     }
+    {
+        // Kurangi stok produk berdasarkan order items
+        foreach ($order->items as $item) {
+            $product = $item->product;
+
+            // Kurangi stok produk
+            $product->quantity -= $item->quantity;
+
+            // Jika stok habis, ubah status menjadi "Out of Stock"
+            if ($product->quantity <= 0) {
+                $product->quantity = 0;
+                $product->status = 'Out of Stock';
+            }
+
+            $product->save();
+        }
+
+        // Hapus supplier dari order items (artinya supplier sudah membayar)
+        // $order->items()->update(['supplier_id' => null]);
+        // $order->update(['supplier_id' => null]);
+        $order->items()->update(['payment_status' => 'Paid']);  
     }
 }

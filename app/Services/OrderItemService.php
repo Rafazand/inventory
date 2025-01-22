@@ -9,8 +9,8 @@ use Illuminate\Validation\ValidationException;
 
 class OrderItemService
 {
-    protected $orderItemRepository;
     protected $productRepository;
+    protected $orderItemRepository;
     protected $orderRepository;
     
 
@@ -46,6 +46,14 @@ class OrderItemService
                 'quantity' => 'The quantity cannot exceed the available stock (' . $product->quantity . ').',
             ]);
         }
+
+        // Check if the product is out of stock
+        if ($product->status === 'Out of Stock') {
+            throw ValidationException::withMessages([
+                'product_id' => 'This product is out of stock and cannot be ordered.',
+            ]);
+        }
+        
 
         // Set unit_price and calculate total_price
         $data['unit_price'] = $product->price; // Set unit_price from product price

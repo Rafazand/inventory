@@ -41,4 +41,13 @@ class OrderItemRepository implements OrderItemRepositoryInterface
         $orderItem->delete();
         return $orderItem;
     }
+
+    public function removeSupplier($id)
+    {
+        $orderItem = $this->model->findOrFail($id);
+        $orderItem->update([
+            'supplier_id' => null,
+        ]);
+        return $orderItem;
+    }
 }

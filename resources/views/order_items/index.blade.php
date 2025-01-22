@@ -20,6 +20,7 @@
                 <th>Quantity</th>
                 <th>Unit Price</th>
                 <th>Total Price</th>
+                <th>Payment Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -31,14 +32,27 @@
                     <td>{{ $orderItem->quantity }}</td>
                     <td>Rp{{ number_format($orderItem->unit_price, 2) }}</td>
                     <td>Rp{{ number_format($orderItem->total_price, 2) }}</td>
+                    <td>{{ $orderItem->payment_status }}</td>
                     <td>
-                        <a href="{{ route('order_items.edit', $orderItem->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        @if ($orderItem->payment_status !== 'Paid')
+                            <a href="{{ route('order_items.edit', $orderItem->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        {{-- @else
+                            <button class="btn btn-sm btn-warning" disabled>Edit</button> --}}
+                        @endif
                         <form action="{{ route('order_items.destroy', $orderItem->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                         </form>
                     </td>
+                    {{-- <td>
+                        <a href="{{ route('order_items.edit', $orderItem->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <form action="{{ route('order_items.destroy', $orderItem->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </td> --}}
                 </tr>
             @endforeach
         </tbody>

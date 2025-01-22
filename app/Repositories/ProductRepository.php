@@ -41,4 +41,14 @@ class ProductRepository implements ProductRepositoryInterface
         $product->delete();
         return $product;
     }
+
+    public function markAsOutOfStock($id)
+    {
+        $product = $this->model->findOrFail($id);
+        $product->update([
+            'quantity' => 0,
+            'status' => 'Out of Stock',
+        ]);
+        return $product;
+    }
 }

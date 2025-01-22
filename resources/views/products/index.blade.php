@@ -21,6 +21,7 @@
                 <th>Description</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                {{-- <th>Status</th> --}}
                 <th>Category</th>
                 <th>Actions</th>
             </tr>
@@ -40,7 +41,14 @@
                     <td>{{ $product->name }}</td>
                     <td>{{ $product->description }}</td>
                     <td>Rp.{{ number_format($product->price, 2) }}</td>
-                    <td>{{ $product->quantity }}</td>
+                    <td>
+                        @if ($product->quantity == 0)
+                            Out of Stock
+                        @else
+                            {{ $product->quantity }}
+                        @endif
+                    </td>{{-- <td>{{ $product->quantity }}</td> --}}
+                    {{-- <td>{{ $product->status }}</td> --}}
                     <td>{{ $product->category->name ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
