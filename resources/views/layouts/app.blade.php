@@ -14,33 +14,92 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.5s, color 0.5s;
         }
+
         .navbar {
-            background-color: #007bff;
+            background-color: var(--navbar-bg) !important;
+            transition: background-color 0.5s;
         }
-        .navbar-brand, .navbar-nav .nav-link {
-            color: #fff !important;
-        }
-        .navbar-brand:hover, .navbar-nav .nav-link:hover {
-            color: #f8f9fa !important;
-        }
+
         .footer {
-            background-color: #007bff;
+            background-color: var(--footer-bg) !important;
             color: #fff;
             text-align: center;
             padding: 10px 0;
             margin-top: auto;
+            transition: background-color 0.5s;
         }
+
         .hover-effect {
             transition: transform 0.2s, box-shadow 0.2s;
         }
+
         .hover-effect:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-    </style>
 
-    <style>
+        /* Animasi untuk navbar brand */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .navbar-brand:hover {
+            animation: bounce 0.5s;
+        }
+
+        /* Animasi untuk tombol */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .btn-pulse:hover {
+            animation: pulse 1s infinite;
+        }
+
+        /* Animasi untuk card */
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animasi untuk teks */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Dark Mode Styles */
         :root {
             --background-color: #ffffff;
             --text-color: #000000;
@@ -54,21 +113,7 @@
             --navbar-bg: #343a40;
             --footer-bg: #343a40;
         }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-
-        .navbar {
-            background-color: var(--navbar-bg) !important;
-        }
-
-        .footer {
-            background-color: var(--footer-bg) !important;
-        }
     </style>
-
 </head>
 <body>
     <!-- Navbar -->
@@ -83,44 +128,44 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('products.index') }}">
+                        <a class="nav-link hover-effect" href="{{ route('products.index') }}">
                             <i class="fas fa-box"></i> Products
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('categories.index') }}">
+                        <a class="nav-link hover-effect" href="{{ route('categories.index') }}">
                             <i class="fas fa-tags"></i> Categories
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('suppliers.index') }}">
+                        <a class="nav-link hover-effect" href="{{ route('suppliers.index') }}">
                             <i class="fas fa-truck"></i> Suppliers
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('orders.index') }}">
+                        <a class="nav-link hover-effect" href="{{ route('orders.index') }}">
                             <i class="fas fa-shopping-cart"></i> Orders
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('order_items.index') }}">
+                        <a class="nav-link hover-effect" href="{{ route('order_items.index') }}">
                             <i class="fas fa-list"></i> Order Items
                         </a>
                     </li>
-                     <!-- Logout Button -->
-                     <li class="nav-item">
+                    <!-- Logout Button -->
+                    <li class="nav-item">
                         <form action="{{ route('logout') }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to Logout?');">
                             @csrf
-                            <button type="submit" class="btn btn-danger btn-sm ms-2">
+                            <button type="submit" class="btn btn-danger btn-sm ms-2 btn-pulse">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </button>
                         </form>
-
-                        <li class="nav-item">
-                            <button id="theme-toggle" class="btn btn-sm ms-2">
-                                <i class="fas fa-moon"></i> <!-- Icon untuk dark mode -->
-                            </button>
-                        </li>
+                    </li>
+                    <!-- Theme Toggle Button -->
+                    <li class="nav-item">
+                        <button id="theme-toggle" class="btn btn-sm ms-2 btn-pulse">
+                            <i class="fas fa-moon"></i>
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -128,9 +173,10 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-grow-1">
+    <main class="flex-grow-1 fade-in">
         <div class="container">
-        @yield('content')
+            @yield('content')
+        </div>
     </main>
 
     <!-- Footer -->
@@ -148,11 +194,11 @@
         document.addEventListener('DOMContentLoaded', function () {
             const themeToggle = document.getElementById('theme-toggle');
             const currentTheme = localStorage.getItem('theme') || 'light';
-    
+
             // Set tema awal
             document.documentElement.setAttribute('data-theme', currentTheme);
             updateThemeIcon(currentTheme);
-    
+
             // Toggle tema saat tombol diklik
             themeToggle.addEventListener('click', function () {
                 const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -160,7 +206,7 @@
                 localStorage.setItem('theme', newTheme);
                 updateThemeIcon(newTheme);
             });
-    
+
             // Fungsi untuk mengupdate ikon tema
             function updateThemeIcon(theme) {
                 const icon = theme === 'dark' ? 'fa-sun' : 'fa-moon';
@@ -168,6 +214,5 @@
             }
         });
     </script>
-
 </body>
 </html>

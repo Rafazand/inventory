@@ -32,6 +32,9 @@ Route::resource('order_items', OrderItemController::class);
 
 // Menu Route
 Route::get('/', [MenuController::class, 'index'])->name('menu');
+Route::get('/landing', function () {
+    return view('landing');
+});
 
 
 // Registration route
