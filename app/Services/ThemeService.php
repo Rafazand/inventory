@@ -1,6 +1,4 @@
 <?php
-
-
 // app/Services/ThemeService.php
 namespace App\Services;
 

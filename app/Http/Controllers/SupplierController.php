@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SupplierRequest;
 use App\Services\SupplierService;
 use Illuminate\Http\Request;
 
@@ -25,16 +26,10 @@ class SupplierController extends Controller
         return view('suppliers.create');
     }
 
-    public function store(Request $request)
+    public function store(SupplierRequest $request)
     {
         // Validate the request
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'contact_person' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:suppliers,email',
-            'phone' => 'required|string|max:20|digits_between:10,15',
-            'address' => 'required|string',
-        ]);
+        $validatedData = $request->validated();
 
         // Delegate the creation logic to the service
         $this->supplierService->create($validatedData);
@@ -50,17 +45,11 @@ class SupplierController extends Controller
         return view('suppliers.edit', compact('supplier'));
     }
 
-    public function update(Request $request, $id)
+    public function update(SupplierRequest $request, $id)
     {
         try {
                 // Validate the request
-                $validatedData = $request->validate([
-                    'name' => 'required|string|max:255',
-                    'contact_person' => 'required|string|max:255',
-                    'email' => 'required|email|max:255',
-                    'phone' => 'required|numeric|digits_between:10,15',
-                    'address' => 'required|string',
-                ]);
+                $validatedData = $request->validated();
 
                 // Delegate the update logic to the service
                 $this->supplierService->update($id, $validatedData);
