@@ -41,4 +41,11 @@ class OrderRepository implements OrderRepositoryInterface
         $order->delete();
         return $order;
     }
+
+    public function findPendingOrderBySupplier($supplierId)
+    {
+    return $this->model->where('supplier_id', $supplierId)
+                       ->where('status', 'Pending')
+                       ->first();
+    }
 }

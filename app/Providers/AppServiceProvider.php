@@ -20,6 +20,8 @@ use App\Services\AuthService;
 use App\Providers\OrderItemService;
 use App\Interfaces\ThemeServiceInterface;
 use App\Services\ThemeService;
+use App\Interfaces\SupplierValidationInterface;
+use App\Services\SupplierValidationService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(MenuServiceInterface::class, MenuService::class);
         $this->app->bind(AuthServiceInterface::class, AuthService::class);
         $this->app->bind(ThemeServiceInterface::class, ThemeService::class);
+        $this->app->bind(SupplierValidationInterface::class, SupplierValidationService::class);
+        $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
     }
 
     /**

@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderRequest;
 use App\Services\OrderService;
+use App\Services\SupplierValidationService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     protected $orderService;
+    protected $supplierValidationService;
 
-    public function __construct(OrderService $orderService)
+    public function __construct(OrderService $orderService, SupplierValidationService $supplierValidationService)
     {
         $this->orderService = $orderService;
+        $this->supplierValidationService = $supplierValidationService;
     }
 
 
@@ -33,8 +36,19 @@ class OrderController extends Controller
     {
         // Validate the request
         $validatedData = $request->validated();
+        $supplierId = $request->input('supplier_id');
+
+        // Validasi apakah supplier bisa membuat order baru
+        if (!$this->supplierValidationService->canCreateOrder($supplierId)) {
+            return redirect()->back()
+                             ->withInput()
+                             ->withErrors(['supplier_id' => 'Supplier has a pending order. Please complete the current order before creating a new one.']);
+        }
 
         // Delegate the creation logic to the service
+        $this->orderService->create($validatedData);
+
+        // Buat order baru
         $this->orderService->create($validatedData);
 
         // Redirect with a success message
