@@ -26,4 +26,15 @@ class CategoryRequest extends FormRequest
             'description' => 'nullable|string',
         ];
     }
+
+    public function messages(): array
+    {
+        return[
+            'name.required' => 'Nama kategori harus diisi.',
+            'name.string' => 'Nama kategori harus berupa teks.',
+            'name.max' => 'Nama kategori tidak boleh lebih dari 255 karakter.',
+            'name.unique' => 'Nama kategori sudah digunakan. Harap pilih nama yang lain.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+        ];
+    }
 }

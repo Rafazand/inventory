@@ -48,24 +48,22 @@ class SupplierController extends Controller
     public function update(SupplierRequest $request, $id)
     {
         try {
-                // Validate the request
-                $validatedData = $request->validated();
 
-                // Delegate the update logic to the service
-                $this->supplierService->update($id, $validatedData);
+            // Validate the request
+            $validatedData = $request->validated();
 
-                // Redirect with a success message
-                return redirect()->route('suppliers.index')
+            // Delegate the update logic to the service
+            $this->supplierService->update($id, $validatedData);
+
+            // Redirect with a success message
+            return redirect()->route('suppliers.index')
                                 ->with('success', 'Supplier updated successfully.');
-            }catch (\Exception $e) {
-                // Redirect back with error message
-                return redirect()->back()
+        }catch (\Exception $e) {
+            // Redirect back with error message
+            return redirect()->back()
                             ->withInput()
                             ->withErrors(['email' => $e->getMessage()]);
-                }
-                    
-                    
-                
+            }           
     }
 
     public function destroy($id)

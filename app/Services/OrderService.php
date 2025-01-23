@@ -134,33 +134,6 @@ class OrderService
     }
 
     protected function handleOrderCompletion(Order $order)
-    // {
-    //     // Get all order items for the completed order
-    //     $orderItems = $order->items;
-
-    //     foreach ($orderItems as $orderItem) {
-    //         // Decrease the product quantity
-    //         $product = $this->productRepository->find($orderItem->product_id);
-    //         $newQuantity = $product->quantity - $orderItem->quantity;
-
-    //         // Update the product quantity
-    //         $this->productRepository->update($product->id, [
-    //             'quantity' => $newQuantity,
-    //         ]);
-
-    //         // If the product quantity reaches zero, mark it as "Out of Stock"
-    //         if ($newQuantity <= 0) {
-    //             $this->productRepository->update($product->id, [
-    //                 'quantity' => 0,
-    //                 'status' => 'Out of Stock', // Assuming you have a 'status' column in the products table
-    //             ]);
-    //         }
-
-    //         // Remove the supplier from the order item (optional, based on your business logic)
-    //         $this->orderItemRepository->update($orderItem->id, [
-    //             'supplier_id' => null,
-    //         ]);
-    //     }
     {
         // Kurangi stok produk berdasarkan order items
         foreach ($order->items as $item) {
@@ -179,8 +152,6 @@ class OrderService
         }
 
         // Hapus supplier dari order items (artinya supplier sudah membayar)
-        // $order->items()->update(['supplier_id' => null]);
-        // $order->update(['supplier_id' => null]);
         $order->items()->update(['payment_status' => 'Paid']);  
     }
 }
