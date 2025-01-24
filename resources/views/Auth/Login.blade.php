@@ -6,7 +6,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white text-center">
+                <div class="card-header btn-primary text-white text-center">
                     <h4><i class="fas fa-sign-in-alt me-2"></i>Login</h4>
                 </div>
                 <div class="card-body">
@@ -52,3 +52,5 @@
     </div>
 </div>
 @endsection
+
+

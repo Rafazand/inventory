@@ -77,23 +77,23 @@
 
         /* Efek hover pada card */
     .hover-effect:hover .icon-default {
-        color: #007bff; /* Warna biru saat card dihover */
+        color: #06D001; /* Warna biru saat card dihover */
     }
 
     .hover-effect:hover .btn-default {
-        background-color: #007bff; /* Warna biru saat card dihover */
+        background-color: #059212; /* Warna biru saat card dihover */
         border-color: #007bff; /* Warna border biru saat card dihover */
         color: #fff; /* Warna teks putih saat card dihover */
     }
 
     /* Warna default ikon dan tombol */
     .icon-default {
-        color: #585858; /* Warna hitam */
+        color: #9edf9c9c; /* Warna hitam */
         transition: color 0.3s;
     }
 
     .btn-default {
-        background-color: #585858; /* Warna hitam */
+        background-color: #9edf9c; /* Warna hitam */
         border: none;
         color: #fff; /* Warna teks putih */
         transition: background-color 0.3s, border-color 0.3s, color 0.3s;

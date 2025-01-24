@@ -258,6 +258,13 @@
             transition: color 0.3s, transform 0.3s;
         }
 
+        .nav-linkblack{
+            color: var(--text-color) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
         .navbar-nav .nav-link:hover {
             color: var(--primary-color) !important;
             transform: translateY(-2px);
@@ -312,6 +319,20 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
+        /* Animasi untuk navbar brand */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .navbar-brand:hover {
+            animation: bounce 0.5s;
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from {
@@ -335,14 +356,16 @@
                 transform: scale(1);
             }
         }
-
+        /* EFFFFB */ 
+        /* 0056b3 */
         /* Dark Mode Styles */
+        /* #333 */
         :root {
-            --background-color: #f8f9fa;
+            --background-color: #ffffff;
             --text-color: #333;
             --navbar-bg: #ffffff;
-            --footer-bg: #ffffff;
-            --primary-color: #007bff;
+            --footer-bg: #9edf9c9c;
+            --primary-color: #06D001;
             --primary-hover-color: #0056b3;
         }
 
@@ -360,7 +383,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('menu') }}">
+            <a class="navbar-brand " href="{{ route('menu') }}">
                 <i class="fas fa-boxes"></i> Inventory System
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -402,12 +425,12 @@
                             </button>
                         </form>
                     </li>
-                    <!-- Theme Toggle Button -->
+                    {{-- <!-- Theme Toggle Button -->
                     <li class="nav-item">
                         <button id="theme-toggle" class="btn btn-sm ms-2 btn-pulse">
                             <i class="fas fa-moon"></i>
                         </button>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>

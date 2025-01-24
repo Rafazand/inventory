@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\LandingController;
 
 
 
@@ -31,11 +32,13 @@ Route::resource('orders', OrderController::class);
 Route::resource('order_items', OrderItemController::class);
 
 // Menu Route
-Route::get('/', [MenuController::class, 'index'])->name('menu');
+Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/landing', function () {
     return view('landing');
 });
 
+// Route untuk landing page
+// Route::get('/', [LandingController::class, 'index'])->name('landing.page');
 
 // Registration route
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

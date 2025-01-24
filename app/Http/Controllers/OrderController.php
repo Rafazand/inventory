@@ -48,9 +48,6 @@ class OrderController extends Controller
         // Delegate the creation logic to the service
         $this->orderService->create($validatedData);
 
-        // Buat order baru
-        $this->orderService->create($validatedData);
-
         // Redirect with a success message
         return redirect()->route('orders.index')
                          ->with('success', 'Order created successfully.');
