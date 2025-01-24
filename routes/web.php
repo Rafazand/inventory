@@ -32,7 +32,7 @@ Route::resource('orders', OrderController::class);
 Route::resource('order_items', OrderItemController::class);
 
 // Menu Route
-Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+Route::get('/', [MenuController::class, 'index'])->name('menu');
 Route::get('/landing', function () {
     return view('landing');
 });
