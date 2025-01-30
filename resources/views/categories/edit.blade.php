@@ -6,6 +6,22 @@
         <a href="{{ route('categories.index') }}" class="btn btn-secondary">Back</a>
     </div>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
     <form action="{{ route('categories.update', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to submit this form?');">
         @csrf
         @method('PUT')

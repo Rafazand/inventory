@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SupplierRequest extends FormRequest
 {
@@ -21,14 +22,29 @@ class SupplierRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        $supplierId = $this->route('supplier');
+
         return [
             'name' => 'required|string|max:255',
             'contact_person' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:suppliers,email',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('suppliers', 'email') ->ignore($supplierId),
+
+        ],
             'phone' => 'required|string|max:20|digits_between:10,15',
             'address' => 'required|string',
         ];
     }
+    // 'name' => [
+    //             'required',
+    //             'string',
+    //             'max:255',
+    //             Rule::unique('categories', 'name')->ignore($categoryId),
+    //         ],
 
     public function messages(): array
     {
