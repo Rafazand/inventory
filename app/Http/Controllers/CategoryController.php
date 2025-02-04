@@ -18,23 +18,30 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = $this->categoryService->all();
-        return view('categories.index', compact('categories'));
+        return view('categories.index', compact('categories')); 
+    }
+
+    public function show($id)
+    {
+        $category = $this->categoryService->find($id);
     }
 
     public function create()
     {
+        $categories = $this->categoryService->all();
         return view('categories.create');
     }
 
     public function edit($id)
     {
-        $category = $this->categoryService->find($id);
-        return view('categories.edit', compact('category'));
+        $categories = $this->categoryService->find($id);
+        return view('categories.edit', compact('categories'));
     }
 
     public function store(CategoryRequest $request)
     {
         $validatedData = $request->validated();
+        $categories = $this->categoryService->all();
     
         try {
             $this->categoryService->create($request->all());
@@ -47,7 +54,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id)
     {
         $validatedData = $request->validated();
-    
+        $categories = $this->categoryService->all();    
         try {
             $this->categoryService->update($id, $request->all());
             return redirect()->route('categories.index')

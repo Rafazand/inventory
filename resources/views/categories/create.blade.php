@@ -6,7 +6,7 @@
         <a href="{{ route('categories.index') }}" class="btn btn-secondary">Back</a>
     </div>
 
-    <form action="{{ route('categories.store') }}" method="POST" onsubmit="return confirm('Are you sure you want to submit this form?');">
+    <form id="create-category-form">
         @csrf
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
@@ -18,4 +18,37 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+    <script>
+        document.getElementById('create-category-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const category = {
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value,
+            };
+
+            const newCategory = await addCategory(category);
+            if (newCategory) {
+                window.location.href = '/categories';
+            }
+        });
+
+        // Fungsi untuk menambahkan kategori
+        async function addCategory(category) {
+            try {
+                const response = await fetch(API_BASE_URL_categories, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(category),
+                });
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error adding category:', error);
+            }
+        }
+    </script>
 @endsection

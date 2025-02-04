@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Services\ProductService;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Services\ProductService;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
     protected $productService;
     public function __construct(ProductService $productService)
     {
@@ -17,13 +20,23 @@ class ProductController extends Controller
     public function index()
     {
         $products = $this->productService->all();
-        return view('products.index', compact('products'));
+        return response()->json($products, 200);
     }
+
+    public function show($id)
+{
+    $product = Product::with('category')->find($id); // Ambil produk beserta kategori
+    if (!$product) {
+        return response()->json(['error' => 'Product not found'], 404);
+    }
+    return response()->json($product);
+
+}
 
     public function create()
     {
         $categories = \App\Models\Category::all(); // Fetch categories for the dropdown
-        return view('products.create', compact('categories'));
+        return response()->json($categories, 200);
     }
 
     public function store(ProductRequest $request)
@@ -38,18 +51,17 @@ class ProductController extends Controller
     }
 
         // Delegate the creation logic to the service
-        $this->productService->create($validatedData);
+        $product= $this->productService->create($validatedData);
 
         // Redirect with a success message
-        return redirect()->route('products.index')
-                         ->with('success', 'Product created successfully.');
+        return response()->json(['success' => true, 'message' => 'Product created successfully.', 'data' => $product], 201);
     }
 
     public function edit($id)
     {
         $product = $this->productService->find($id);
         $categories = \App\Models\Category::all(); // Fetch categories for the dropdown
-        return view('products.edit', compact('product', 'categories'));
+        return response()->json($product, $categories);
     }
 
     public function update(ProductRequest $request, $id)
@@ -83,10 +95,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         // Delegate the deletion logic to the service
-        $this->productService->delete($id);
+        $product= $this->productService->delete($id);
 
         // Redirect with a success message
-        return redirect()->route('products.index')
-                         ->with('success', 'Product deleted successfully.');
+        return response()->json(['success' => true, 'message' => 'Product created successfully.', 'data' => $product], 201);
     }
 }
+

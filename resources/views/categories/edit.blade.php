@@ -22,7 +22,7 @@
         </div>
     @endif
 
-    <form action="{{ route('categories.update', $category->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to submit this form?');">
+    {{-- <form id="edit-category-form">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -34,5 +34,35 @@
             <textarea class="form-control" id="description" name="description" rows="3">{{ $category->description }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
+    </form> --}}
+
+    <form id="edit-category-form">
+        @csrf
+        @method('PUT')
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ $categories->name }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{ $categories->description }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
+
+    <script>
+        document.getElementById('edit-category-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const category = {
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value,
+            };
+
+            const updatedCategory = await updateCategory({{ $categories->id }}, category);
+            if (updatedCategory) {
+                window.location.href = '/categories';
+            }
+        });
+    </script>
 @endsection

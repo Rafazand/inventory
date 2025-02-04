@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    <form action="{{ route('products.store') }}" method="POST" onsubmit="return confirm('Are you sure you want to submit this form?');" enctype="multipart/form-data">
+    <form id='create-product-form'>
         @csrf
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
@@ -49,4 +49,39 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api/v2/products';
+
+        // Fungsi untuk menyimpan produk baru
+        document.getElementById('create-product-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('name', document.getElementById('name').value);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('price', document.getElementById('price').value);
+            formData.append('quantity', document.getElementById('quantity').value);
+            formData.append('category_id', document.getElementById('category_id').value);
+            formData.append('image', document.getElementById('image').files[0]);
+
+            try {
+                const response = await fetch(API_BASE_URL, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    window.location.href = '/products';
+                } else {
+                    alert('Failed to create product');
+                }
+            } catch (error) {
+                console.error('Error creating product:', error);
+            }
+        });
+
+        // Jalankan fungsi renderCategories saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', renderCategories);
+    </script>
 @endsection

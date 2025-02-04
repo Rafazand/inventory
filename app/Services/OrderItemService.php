@@ -6,6 +6,7 @@ use App\Repositories\OrderItemRepositoryInterface;
 use App\Repositories\ProductRepositoryInterface;
 use App\Repositories\OrderRepositoryInterface;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
 
 class OrderItemService
 {
@@ -70,6 +71,13 @@ class OrderItemService
 
     public function update($id, array $data)   
     {
+
+        DB::beginTransaction(); // Mulai transaction
+
+    try {
+        // Fetch the existing order item
+        $orderItem = $this->orderItemRepository->find($id);
+
         // Fetch the product price from the product repository
         $product = $this->productRepository->find($data['product_id']);
 
@@ -84,13 +92,24 @@ class OrderItemService
         $data['unit_price'] = $product->price; // Set unit_price from product price
         $data['total_price'] = $data['quantity'] * $product->price; // Calculate total_price
 
+        // Jika order_id diubah, kurangi total_amount dari order lama
+        if ($orderItem->order_id != $data['order_id']) {
+            $this->updateOrderTotalAmount($orderItem->order_id); // Update order lama
+        }
+
         // Update the order item
         $orderItem = $this->orderItemRepository->update($id, $data);
 
         // Recalculate and update the total_amount for the order
         $this->updateOrderTotalAmount($orderItem->order_id);
 
+        DB::commit();
+
         return $orderItem;
+    } catch (\Exception $e) {
+        DB::rollBack(); // Rollback transaction jika terjadi error
+        throw $e;
+    }
     }
 
     public function delete($id)

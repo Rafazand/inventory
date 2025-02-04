@@ -258,6 +258,71 @@
                 themeToggle.innerHTML = `<i class="fas ${icon}"></i>`;
             }
         });
+
+        // JavaScript untuk mengonsumsi API
+        const API_BASE_URL_categories = 'http://localhost:8000/api/v1/categories';
+        const API_BASE_URL_products = 'http://localhost:8000/api/v2/products';
+        // const API_BASE_URL_suppliers = 'http://localhost:8000/api/v2/';
+        // const API_BASE_URL_orders = 'http://localhost:8000/api/v2/';
+        // const API_BASE_URL_orderitems = 'http://localhost:8000/api/v2/';
+
+    
+        // Fungsi untuk mengambil data kategori
+        async function fetchCategories() {
+            try {
+                const response = await fetch(API_BASE_URL_categories);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        }
+
+         // Fungsi untuk mengambil data produk dari API
+         async function fetchProducts() {
+            try {
+                const response = await fetch(API_BASE_URL_products);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching products:', error);
+                showAlert('Failed to fetch products', 'danger');
+            }
+        }
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Fungsi untuk mengupdate kategori
+        async function updateCategory(id, category) {
+            try {
+                const response = await fetch(`${API_BASE_URL_categories}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(category),
+                });
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error updating category:', error);
+            }
+        }
+
     </script>
 </body>
 </html>

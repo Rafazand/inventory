@@ -24,9 +24,10 @@
             <label for="order_id">Supplier</label>
             <select name="order_id" id="order_id" class="form-control" required>
                 @foreach ($orders as $order)
-                    <option value="{{ $order->id }}" {{ $order->id == $orderItem->order_id ? 'selected' : '' }}>
-                        {{ $order->supplier->name }}
-                    </option>
+                    @if ( $order->status == 'Pending' ){
+                        <option value="{{ $order->id }}">{{ $order->supplier->name }}</option>
+                    }
+                    @endif 
                 @endforeach
             </select>
         </div>

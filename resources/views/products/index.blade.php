@@ -24,37 +24,65 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach ($products as $product)
-                <tr class="fade-in hover-effect">
-                    <td>
-                        @if ($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="50" class="img-thumbnail">
-                        @else
-                            <span class="text-muted">No Image</span>
-                        @endif
-                    </td>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->description }}</td>
-                    <td>Rp.{{ number_format($product->price, 2) }}</td>
-                    <td>
-                        @if ($product->quantity == 0)
-                            <span class="text-danger">Out of Stock</span>
-                        @else
-                            {{ $product->quantity }}
-                        @endif
-                    </td>
-                    <td>{{ $product->category->name ?? 'N/A' }}</td>
-                    <td>
-                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning btn-pulse">Edit</a>
-                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger btn-pulse" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
+        <tbody id="product-table-body">
         </tbody>
     </table>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8000/api/v2/products'; // Ganti dengan URL API Anda
+
+
+        // Fungsi untuk menampilkan data produk di tabel
+        async function renderProducts() {
+            const products = await fetchProducts();
+            const tableBody = document.getElementById('product-table-body');
+            // tableBody.innerHTML = ''; // Kosongkan tabel sebelum mengisi data baru
+
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.classList.add('fade-in', 'hover-effect');
+                row.innerHTML = `
+                    <td>
+                        ${product.image ? `<img src="http://localhost:8000/storage/${product.image}" alt="${product.name}" width="50" class="img-thumbnail">` : '<span class="text-muted">No Image</span>'}
+                    </td>
+                    <td>${product.name}</td>
+                    <td>${product.description}</td>
+                    <td>Rp.${product.price.toLocaleString('id-ID', { minimumFractionDigits: 2 })}</td>
+                    <td>
+                        ${product.quantity === 0 ? '<span class="text-danger">Out of Stock</span>' : product.quantity}
+                    </td>
+                    <td>${product.category ? product.category.name : 'N/A'}</td>
+                    <td>
+                        <a href="/products/${product.id}/edit" class="btn btn-sm btn-warning btn-pulse">Edit</a>
+                        <button onclick="deleteProduct(${product.id})" class="btn btn-sm btn-danger btn-pulse">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Fungsi untuk menghapus produk
+        async function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/${id}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (response.status === 204) {
+                        showAlert('Product deleted successfully');
+                        renderProducts(); // Refresh tabel setelah menghapus
+                    } else {
+                        showAlert('Failed to delete product', 'danger');
+                    }
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    showAlert('Failed to delete product', 'danger');
+                }
+            }
+        }
+
+        // Jalankan fungsi renderProducts saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', renderProducts);
+    </script>
 @endsection
