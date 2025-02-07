@@ -35,6 +35,8 @@ class ProductController extends Controller
         // Upload gambar jika ada
     if ($request->hasFile('image')) {
         $validatedData['image'] = $request->file('image')->store('products', 'public');
+    }else {
+        $validatedData['image'] = null;
     }
 
         // Delegate the creation logic to the service
@@ -70,7 +72,12 @@ class ProductController extends Controller
         // Upload gambar jika ada
         if ($request->hasFile('image')) {
             $validatedData['image'] = $request->file('image')->store('products', 'public');
+        } else {
+            $validatedData['image'] = null;
         }
+
+        // Jika description kosong, set menjadi null
+        $validatedData['description'] = $request->input('description') ?: null;
 
         // Delegate the update logic to the service
         $this->productService->update($id, $validatedData);

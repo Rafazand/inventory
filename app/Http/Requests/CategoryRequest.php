@@ -23,15 +23,17 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
 
-        $categoryId = $this->route('category'); //
+        $categoryId = $this->route('id'); //
+
+        // $categoryId = $categoryId ? $categoryId : '';
 
         return [
-            // 'name' => 'required|string|max:255|unique:categories,name',
+            // 'name' => 'required|string|max:255|unique:categories,name,' . $id, // Abaikan kategori dengan ID ini
             // 'description' => 'nullable|string',
             
 
             'name' => [
-                'required',
+                'sometimes',
                 'string',
                 'max:255',
                 Rule::unique('categories', 'name')->ignore($categoryId),

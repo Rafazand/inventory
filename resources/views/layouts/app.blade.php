@@ -261,7 +261,7 @@
 
         // JavaScript untuk mengonsumsi API
         const API_BASE_URL_categories = 'http://localhost:8000/api/v1/categories';
-        const API_BASE_URL_products = 'http://localhost:8000/api/v2/products';
+        const API_BASE_URL_products = 'http://localhost:8000/api/v1/products';
         // const API_BASE_URL_suppliers = 'http://localhost:8000/api/v2/';
         // const API_BASE_URL_orders = 'http://localhost:8000/api/v2/';
         // const API_BASE_URL_orderitems = 'http://localhost:8000/api/v2/';

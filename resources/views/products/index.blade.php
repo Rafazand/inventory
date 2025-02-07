@@ -29,7 +29,7 @@
     </table>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8000/api/v2/products'; // Ganti dengan URL API Anda
+        const API_BASE_URL = 'http://localhost:8000/api/v1/products'; // Ganti dengan URL API Anda
 
 
         // Fungsi untuk menampilkan data produk di tabel
@@ -61,23 +61,46 @@
             });
         }
 
-        // Fungsi untuk menghapus produk
-        async function deleteProduct(id) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/${id}`, {
-                        method: 'DELETE',
-                    });
+        // // Fungsi untuk menghapus produk
+        // async function deleteProduct(id) {
+        //     if (confirm('Are you sure you want to delete this product?')) {
+        //         try {
+        //             const response = await fetch(`${API_BASE_URL}/${id}`, {
+        //                 method: 'DELETE',
+        //             });
 
-                    if (response.status === 204) {
-                        showAlert('Product deleted successfully');
-                        renderProducts(); // Refresh tabel setelah menghapus
-                    } else {
-                        showAlert('Failed to delete product', 'danger');
+        //             if (response.status === 204) {
+        //                 showAlert('Product deleted successfully');
+        //                 renderProducts(); // Refresh tabel setelah menghapus
+        //             } else {
+        //                 showAlert('Failed to delete product', 'danger');
+        //             }
+        //         } catch (error) {
+        //             console.error('Error deleting product:', error);
+        //             showAlert('Failed to delete product', 'danger');
+        //         }
+        //     }
+        // }
+
+        async function deleteProduct(id) {
+
+        if (confirm('Are you sure you want to delete this category?')) {
+        try {
+        const response = await fetch(`http://localhost:8000/api/v1/products/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
                     }
+                });
+
+                if (response.ok) { 
+                    alert('Product deleted successfully');
+                    window.location.reload(); // Refresh halaman setelah berhasil menghapus
+                } else {
+                    alert('Failed to delete Product');
+                }
                 } catch (error) {
-                    console.error('Error deleting product:', error);
-                    showAlert('Failed to delete product', 'danger');
+                console.error('Error:', error);
                 }
             }
         }

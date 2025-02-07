@@ -24,14 +24,14 @@ class ProductController extends Controller
     }
 
     public function show($id)
-{
-    $product = Product::with('category')->find($id); // Ambil produk beserta kategori
-    if (!$product) {
-        return response()->json(['error' => 'Product not found'], 404);
-    }
-    return response()->json($product);
+    {
+        $product = Product::with('category')->find($id); // Ambil produk beserta kategori
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+        return response()->json($product);
 
-}
+    }
 
     public function create()
     {
@@ -66,15 +66,6 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
-        // Validate the request
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'description' => 'nullable|string',
-        //     'price' => 'required|numeric|min:0',
-        //     'quantity' => 'required|integer|min:0',
-        //     'category_id' => 'required|exists:categories,id',
-        //     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        // ]);
 
         // Data sudah divalidasi oleh StoreProductRequest
         $validatedData = $request->validated();
@@ -85,11 +76,10 @@ class ProductController extends Controller
         }
 
         // Delegate the update logic to the service
-        $this->productService->update($id, $validatedData);
+        $product=$this->productService->update($id, $validatedData);
 
         // Redirect with a success message
-        return redirect()->route('products.index')
-                         ->with('success', 'Product updated successfully.');
+        return response()->json(['success' => true, 'message' => 'Product created successfully.', 'data' => $product], 201);
     }
 
     public function destroy($id)

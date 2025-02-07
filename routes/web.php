@@ -28,6 +28,7 @@ use App\Http\Controllers\LandingController;
 Route::resource('products', ProductController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('suppliers', SupplierController::class);
+
 Route::resource('orders', OrderController::class);
 Route::resource('order_items', OrderItemController::class);
 

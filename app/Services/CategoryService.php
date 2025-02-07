@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\CategoryRepositoryInterface;
+use App\Models\Category;
 
 class CategoryService
 {
@@ -35,13 +36,10 @@ class CategoryService
 
     public function update($id, array $data)
     {
-        // Check if another category with the same name already exists
-        $existingCategory = $this->categoryRepository->findByName($data['name']);
-        if ($existingCategory && $existingCategory->id != $id) {
-            throw new \Exception('Category name already exists.');
-        }
-    
-        return $this->categoryRepository->update($id, $data);
+        
+        $category = Category::findOrFail($id);
+        $category->update($data);
+        return $category;
     }
 
     public function delete($id)

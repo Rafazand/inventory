@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Services\CategoryService;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -53,14 +54,28 @@ class CategoryController extends Controller
     }
     public function update(CategoryRequest $request, $id)
     {
-        $validatedData = $request->validated();
-        $categories = $this->categoryService->all();    
+
         try {
-            $this->categoryService->update($id, $request->all());
-            return redirect()->route('categories.index')
-                             ->with('success', 'Category updated successfully.');
+            // Gunakan $request->validated() untuk mengambil data yang sudah divalidasi
+            $validatedData = $request->validated();
+    
+            // Update kategori menggunakan service layer
+            $category = $this->categoryService->update($id, $validatedData);
+    
+            // Return response sukses
+            return response()->json([
+                'success' => true,
+                'data' => $category,
+                'message' => 'Category updated successfully.',
+            ], 200);
+    
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['name' => $e->getMessage()])->withInput();
+    
+            // Return response error yang aman
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update category. Please try again.',
+            ], 400);
         }
     }
 

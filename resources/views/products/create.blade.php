@@ -51,19 +51,22 @@
     </form>
 
     <script>
-        const API_BASE_URL = 'http://localhost:8000/api/v2/products';
+        const API_BASE_URL = 'http://localhost:8000/api/v1/products';
 
         // Fungsi untuk menyimpan produk baru
         document.getElementById('create-product-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const formData = new FormData();
+            const imageInput = document.getElementById('image');
             formData.append('name', document.getElementById('name').value);
             formData.append('description', document.getElementById('description').value);
             formData.append('price', document.getElementById('price').value);
             formData.append('quantity', document.getElementById('quantity').value);
             formData.append('category_id', document.getElementById('category_id').value);
-            formData.append('image', document.getElementById('image').files[0]);
+            if (document.getElementById('image').files[0]) {
+                formData.append('image', document.getElementById('image').files[0]);
+            }
 
             try {
                 const response = await fetch(API_BASE_URL, {
