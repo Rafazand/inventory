@@ -22,6 +22,9 @@ use App\Interfaces\ThemeServiceInterface;
 use App\Services\ThemeService;
 use App\Interfaces\SupplierValidationInterface;
 use App\Services\SupplierValidationService;
+use App\Contracts\TokenServiceInterface;
+use App\Services\TokenService;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +43,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ThemeServiceInterface::class, ThemeService::class);
         $this->app->bind(SupplierValidationInterface::class, SupplierValidationService::class);
         $this->app->bind(OrderRepositoryInterface::class, OrderRepository::class);
+        $this->app->bind(TokenServiceInterface::class, TokenService::class);
+        $this->app->bind(AuthServiceInterface::class, AuthService::class);
     }
 
     /**

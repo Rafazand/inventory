@@ -33,7 +33,6 @@ class SupplierRequest extends FormRequest
                 'email',
                 'max:255',
                 Rule::unique('suppliers', 'email') ->ignore($supplierId),
-
         ],
             'phone' => 'required|string|max:20|digits_between:10,15',
             'address' => 'required|string',

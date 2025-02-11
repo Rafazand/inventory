@@ -21,6 +21,7 @@
             </tr>
         </thead>
         <tbody id="category-table-body">
+
         </tbody>
     </table>
 

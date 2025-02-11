@@ -25,6 +25,7 @@
             </tr>
         </thead>
         <tbody id="product-table-body">
+            
         </tbody>
     </table>
 
@@ -61,26 +62,7 @@
             });
         }
 
-        // // Fungsi untuk menghapus produk
-        // async function deleteProduct(id) {
-        //     if (confirm('Are you sure you want to delete this product?')) {
-        //         try {
-        //             const response = await fetch(`${API_BASE_URL}/${id}`, {
-        //                 method: 'DELETE',
-        //             });
-
-        //             if (response.status === 204) {
-        //                 showAlert('Product deleted successfully');
-        //                 renderProducts(); // Refresh tabel setelah menghapus
-        //             } else {
-        //                 showAlert('Failed to delete product', 'danger');
-        //             }
-        //         } catch (error) {
-        //             console.error('Error deleting product:', error);
-        //             showAlert('Failed to delete product', 'danger');
-        //         }
-        //     }
-        // }
+        
 
         async function deleteProduct(id) {
 
